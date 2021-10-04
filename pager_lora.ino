@@ -5,6 +5,7 @@
  * data: 03/10/2021
  */
 
+#include <cctype>
 #include <map>
 #include <sstream>
 #include "heltec.h"
@@ -71,8 +72,8 @@ char *ReceberMorse()
   int packetSize = LoRa.parsePacket();
   if (packetSize > 0) {
     while (LoRa.available() && contagem < MAX_MESSAGE_SIZE) {
-      char simb = LoRa.read();
-      mensagem[contagem] = simb;
+      unsigned char simb = LoRa.read();
+      mensagem[contagem] = std::toupper(simb);
       contagem++;
       if (simb == '@') {
         mensagem[0] = '@';
