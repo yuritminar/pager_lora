@@ -73,7 +73,7 @@ char *ReceberMorse()
   if (packetSize > 0) {
     while (LoRa.available() && contagem < MAX_MESSAGE_SIZE) {
       unsigned char simb = LoRa.read();
-      mensagem[contagem] = std::toupper(simb);
+      mensagem[contagem] = simb;
       contagem++;
       if (simb == '@') {
         mensagem[0] = '@';
@@ -145,7 +145,7 @@ void loop () {
   static bool enviar = false;
   // Recebe texto da serial para enviar por rádio
   while (Serial.available() && posicao < 64 - 1) {
-    char c = Serial.read();
+    char c = std::toupper(Serial.read());
     if ((c < 'A' || c > 'Z') && (c < '0' || c > '9') && c != '\n') {
       Serial.println("Caractere invalido");
     } else if(c == '\n') {
