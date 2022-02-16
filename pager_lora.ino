@@ -5,6 +5,7 @@
  * data: 03/10/2021
  */
 
+#include <cctype>
 #include <map>
 #include <sstream>
 #include "heltec.h"
@@ -71,7 +72,7 @@ char *ReceberMorse()
   int packetSize = LoRa.parsePacket();
   if (packetSize > 0) {
     while (LoRa.available() && contagem < MAX_MESSAGE_SIZE) {
-      char simb = LoRa.read();
+      unsigned char simb = LoRa.read();
       mensagem[contagem] = simb;
       contagem++;
       if (simb == '@') {
@@ -144,7 +145,7 @@ void loop () {
   static bool enviar = false;
   // Recebe texto da serial para enviar por rádio
   while (Serial.available() && posicao < 64 - 1) {
-    char c = Serial.read();
+    char c = std::toupper(Serial.read());
     if ((c < 'A' || c > 'Z') && (c < '0' || c > '9') && c != '\n') {
       Serial.println("Caractere invalido");
     } else if(c == '\n') {
